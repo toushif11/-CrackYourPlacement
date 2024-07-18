@@ -1,0 +1,15 @@
+#include<bits/stdc++.h>
+class Solution {
+public:
+    string convertToTitle(int col) {
+        int m = col;
+        string ans = "";
+        while(m>0){
+            int n = (m-1)%26;
+            ans = char('A'+n)+ans;
+            m= (m-1)/26;
+        }
+        return ans;
+    }
+
+};
