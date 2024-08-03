@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int mct(int low, int high, vector<int>& arr, vector<vector<int>>& dp) {
+        if (low >= high) return 0;
+        if (dp[low][high] != -1) return dp[low][high];
+        
+        int result = INT_MAX;
+        for (int k = low; k < high; k++) {
+            int left_max = *max_element(arr.begin() + low, arr.begin() + k + 1);
+            int right_max = *max_element(arr.begin() + k + 1, arr.begin() + high + 1);
+            int current = left_max * right_max;
+            int left_subtree = mct(low, k, arr, dp);
+            int right_subtree = mct(k + 1, high, arr, dp);
+            result = min(result, current + left_subtree + right_subtree);
+        }
+        
+        return dp[low][high] = result;
+    }
+    
+    int mctFromLeafValues(vector<int>& arr) {
+        int n = arr.size();
+        vector<vector<int>> dp(n, vector<int>(n, -1));
+        return mct(0, n - 1, arr, dp);
+    }
+};
