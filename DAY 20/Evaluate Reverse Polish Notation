@@ -1,0 +1,32 @@
+class Solution {
+public:
+    bool isoperator(string s){
+        if(s=="+" || s=="-" || s=="*" || s=="/") return true;
+        return false;
+    }
+    long solve(int a, int b, const string& opr){
+        if(opr =="+") return a+b;
+        else if(opr == "-") return a - b;
+        else if(opr == "*") return (long)a*b;
+        return a/b;
+    }
+    int evalRPN(vector<string>& tokens) {
+        stack<long> st;
+        int ans =0;
+        for(int i=0; i<tokens.size(); i++){
+            if(isoperator(tokens[i])){
+                long val2 = st.top();
+                st.pop();
+                long val1 = st.top();
+                st.pop();
+                ans = solve(val1, val2, tokens[i]);
+                st.push(ans);
+            }
+            else{
+                st.push(stoi(tokens[i]));
+            }
+            
+        }
+        return st.top();
+    }
+};
