@@ -1,0 +1,39 @@
+class NestedIterator {
+public:
+    stack<NestedInteger> st;
+    void flattenList(vector<NestedInteger> &nestedList){
+        int n = nestedList.size();
+        for(int i=n-1; i>=0; i--){
+            st.push(nestedList[i]);
+        }
+    }
+    NestedIterator(vector<NestedInteger> &nestedList) {
+        flattenList(nestedList);
+    }
+    
+    int next() {
+        if(!hasNext()) return -1;
+        int result = st.top().getInteger();
+        st.pop();
+        return result;
+        
+    }
+    
+    bool hasNext() {
+        while (!st.empty()) {
+            NestedInteger current = st.top();
+            if (current.isInteger()) {
+                return true;
+            }
+            st.pop();
+            flattenList(current.getList());
+        }
+        return false;
+    }
+};
+
+/**
+ * Your NestedIterator object will be instantiated and called as such:
+ * NestedIterator i(nestedList);
+ * while (i.hasNext()) cout << i.next();
+ */
